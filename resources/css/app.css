@@ -13,6 +13,21 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    --font-display:
+        Fraunces, ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+
+    /* Santhi Nest storefront palette: warm lamp-lit interiors. */
+    --color-ivory: #fbf7f1;
+    --color-linen: #f3ece1;
+    --color-sand: #e7dccb;
+    --color-ink: #1d1a16;
+    --color-ink-soft: #57504a;
+    --color-clay: #b8673a;
+    --color-clay-deep: #8f4b26;
+    --color-honey: #e6a957;
+    --color-sage: #56634f;
+    --color-sage-soft: #dfe5d8;
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -168,5 +183,81 @@
     }
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+/* Storefront motion. Everything settles instantly for visitors who prefer reduced motion. */
+@keyframes sn-rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes sn-settle {
+    from {
+        transform: scale(1.12);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes sn-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@layer utilities {
+    .sn-rise {
+        animation: sn-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .sn-settle {
+        animation: sn-settle 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .sn-float {
+        animation: sn-float 3.2s ease-in-out infinite;
+    }
+
+    .sn-reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+            opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+            transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .sn-reveal.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .sn-grain {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sn-rise,
+    .sn-settle,
+    .sn-float {
+        animation: none;
+    }
+
+    .sn-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }

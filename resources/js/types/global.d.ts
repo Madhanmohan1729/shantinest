@@ -28,6 +28,7 @@ declare module '@inertiajs/core' {
 declare module 'vue' {
     interface GlobalDirectives {
         vFocus: Directive<HTMLElement, boolean | undefined>;
+        vReveal: Directive<HTMLElement, number | undefined>;
     }
 
     interface ComponentCustomProperties {

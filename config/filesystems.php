@@ -17,6 +17,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Property Images Disk
+    |--------------------------------------------------------------------------
+    |
+    | The disk that property photos are stored on, both the defaults copied
+    | by `php artisan images:upload` and the ones admins upload. Use "public"
+    | locally, or "s3" in production.
+    |
+    */
+
+    'images_disk' => env('IMAGES_DISK', 'public'),
+
+    /*
+    | How long, in minutes, a signed S3 image URL stays valid. Only used when
+    | the images disk is S3. AWS allows at most 7 days (10080 minutes).
+    */
+
+    'images_url_ttl_minutes' => (int) env('IMAGES_URL_TTL_MINUTES', 1440),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |

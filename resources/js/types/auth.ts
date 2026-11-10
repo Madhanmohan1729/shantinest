@@ -12,6 +12,12 @@ export type User = {
 
 export type Auth = {
     user: User;
+    can: {
+        viewDashboard: boolean;
+        viewProperties: boolean;
+        viewHolds: boolean;
+        viewStayRequests: boolean;
+    };
 };
 
 export type Passkey = {

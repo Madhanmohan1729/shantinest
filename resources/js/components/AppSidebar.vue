@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from '@lucide/vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import {
+    CalendarRange,
+    ExternalLink,
+    Home,
+    Inbox,
+    LayoutGrid,
+} from '@lucide/vue';
+import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -14,27 +21,52 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, home } from '@/routes';
+import { index as holdsIndex } from '@/routes/admin/holds';
+import { index as propertiesIndex } from '@/routes/admin/properties';
+import { index as stayRequestsIndex } from '@/routes/admin/stay-requests';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
+const page = usePage();
+
+const mainNavItems = computed<NavItem[]>(() => {
+    const can = page.props.auth.can;
+
+    const items: { visible: boolean; item: NavItem }[] = [
+        {
+            visible: can.viewDashboard,
+            item: { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+        },
+        {
+            visible: can.viewStayRequests,
+            item: {
+                title: 'Stay requests',
+                href: stayRequestsIndex(),
+                icon: Inbox,
+            },
+        },
+        {
+            visible: can.viewHolds,
+            item: {
+                title: 'Room holds',
+                href: holdsIndex(),
+                icon: CalendarRange,
+            },
+        },
+        {
+            visible: can.viewProperties,
+            item: { title: 'Properties', href: propertiesIndex(), icon: Home },
+        },
+    ];
+
+    return items.filter(({ visible }) => visible).map(({ item }) => item);
+});
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'View website',
+        href: home(),
+        icon: ExternalLink,
     },
 ];
 </script>

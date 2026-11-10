@@ -40,6 +40,12 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'can' => [
+                    'viewDashboard' => (bool) $request->user()?->can('view dashboard'),
+                    'viewProperties' => (bool) $request->user()?->can('view properties'),
+                    'viewHolds' => (bool) $request->user()?->can('view holds'),
+                    'viewStayRequests' => (bool) $request->user()?->can('view stay requests'),
+                ],
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
