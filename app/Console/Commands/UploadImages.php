@@ -123,11 +123,11 @@ class UploadImages extends Command
     }
 
     /**
-     * The local directory that holds the default photos, one folder per
-     * property slug.
+     * The directory that holds the default photos, one folder per property
+     * slug. It is inside the public folder, so the photos ship with the code.
      */
     public static function sourcePath(): string
     {
-        return resource_path('js/assets/images/properties');
+        return public_path(self::PREFIX.'/properties');
     }
 }

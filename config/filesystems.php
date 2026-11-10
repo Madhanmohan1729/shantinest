@@ -21,12 +21,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | The disk that property photos are stored on, both the defaults copied
-    | by `php artisan images:upload` and the ones admins upload. Use "public"
-    | locally, or "s3" in production.
+    | by `php artisan images:upload` and the ones admins upload. The default
+    | "site" disk keeps them in the public folder, so they work on shared
+    | hosting (e.g. Hostinger) without `storage:link`. Use "s3" for a bucket.
     |
     */
 
-    'images_disk' => env('IMAGES_DISK', 'public'),
+    'images_disk' => env('IMAGES_DISK', 'site'),
 
     /*
     | How long, in minutes, a signed S3 image URL stays valid. Only used when
@@ -62,6 +63,19 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        /*
+        | Files inside the public folder, served from the site root, e.g.
+        | public/images/properties/a.jpg is served at /images/properties/a.jpg.
+        */
+        'site' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => '',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

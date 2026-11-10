@@ -18,7 +18,7 @@ class MediaFactory extends Factory
     public function definition(): array
     {
         return [
-            'disk' => 'public',
+            'disk' => 'site',
             'path' => 'images/'.fake()->unique()->uuid().'.jpg',
             'original_name' => fake()->word().'.jpg',
             'mime_type' => 'image/jpeg',
